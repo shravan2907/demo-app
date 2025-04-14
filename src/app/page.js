@@ -1,7 +1,7 @@
 "use client";
 
 import { useTheme } from "@/context/ThemeContext";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { Slider } from "@/components/ui/slider";
 import { FaWifi, FaBluetooth, FaSun, FaVolumeUp, FaBatteryFull } from "react-icons/fa";
 import { motion } from "framer-motion";
@@ -26,7 +26,6 @@ export default function Home() {
   const [logs, setLogs] = useState([]);
   const [isTyping, setIsTyping] = useState(false);
 
-  // ✅ WebSocket - Listen for Updates
   useEffect(() => {
     socket.on("stateUpdate", (data) => {
       console.log("Response from server:", data);
@@ -54,7 +53,6 @@ export default function Home() {
     };
   }, []);
 
-  // ✅ Handle Execute Button
   const handleExecute = () => {
     if (socket && socket.connected) {
       const context = {
@@ -110,12 +108,7 @@ export default function Home() {
         <label className="block text-lg font-medium mb-2 flex items-center gap-3">
           <FaSun className="text-yellow-500 text-3xl" /> Brightness
         </label>
-        <Slider
-          value={[brightness]}
-          onChange={(value) => setBrightness(value[0])}
-          max={100}
-          step={1}
-        />
+        <Slider value={[brightness]} onChange={(value) => setBrightness(value[0])} max={100} step={1} />
         <p className="mt-2 text-lg">Current: {brightness}%</p>
       </div>
 
@@ -124,12 +117,7 @@ export default function Home() {
         <label className="block text-lg font-medium mb-2 flex items-center gap-3">
           <FaVolumeUp className="text-blue-500 text-3xl" /> Volume
         </label>
-        <Slider
-          value={[volume]}
-          onChange={(value) => setVolume(value[0])}
-          max={100}
-          step={1}
-        />
+        <Slider value={[volume]} onChange={(value) => setVolume(value[0])} max={100} step={1} />
         <p className="mt-2 text-lg">Current: {volume}%</p>
       </div>
 
@@ -149,7 +137,7 @@ export default function Home() {
         </div>
       </div>
 
-      {/* System Monitoring (Charts) */}
+      {/* System Monitoring */}
       <div className="mt-6">
         <h2 className="text-xl font-bold">System Monitoring</h2>
         <ResponsiveContainer width="100%" height={200}>
